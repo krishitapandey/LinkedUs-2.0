@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const uri = "mongodb://localhost:27017/jobs";
+const uri = "mongodb+srv://krishita:kiskid123@cluster0.ygfl7qi.mongodb.net/Linkedin?retryWrites=true&w=majority";
 
 const connect = () => {
   mongoose

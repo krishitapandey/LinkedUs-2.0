@@ -8,27 +8,36 @@ export default function JobPosting() {
   const [description, setDescription] = React.useState("");
   const [salary, setSalary] = React.useState("");
   const [date, setDate] = React.useState(new Date().toISOString().slice(0, 10));
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      title: title,
-      description: description,
-      salary: salary,
-      date: date,
-    };
-    axios
-      .post("http://localhost:5000/api/jobs", data)
-      .then((res) => {
-        console.log(res);
-        alert("Job Posted Successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Job Posting Failed");
-      });
+  const [image, setImage] = React.useState(null);
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("salary", salary);
+    formData.append("date", date);
+    formData.append("image", image);
+    try {
+      console.log("hell");
+      const res = await axios.post(
+        "http://localhost:3800/api/jobs",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("hell");
+      console.log(res.data);
+    } catch (err) {
+      console.error(err.response.data);
+    }
+  };
   return (
     <div>
       <AdminNavbar />
@@ -75,11 +84,16 @@ export default function JobPosting() {
             onChange={(e) => setDate(e.target.value)}
           />
 
+          <input
+            name="image"
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+
           <button type="submit" onClick={handleSubmit}>
             Post
           </button>
         </form>
-        
       </div>
     </div>
   );

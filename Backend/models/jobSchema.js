@@ -24,6 +24,12 @@ const jobSchema = new Schema({
     type: Date,
     required: true,
   },
+   //buffer -binary data
+   image: {
+    data: Buffer,
+    contentType: String
+  }
+  
 });
 
 const Job = mongoose.model("Job", jobSchema);
